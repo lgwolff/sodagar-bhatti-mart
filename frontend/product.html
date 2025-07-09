@@ -37,7 +37,7 @@
     if (!id) return alert('❌ Product ID missing in URL');
 
     try {
-      const res = await fetch(`/api/products/${id}`);
+      const res = await fetch(`https://sodagar-backend.onrender.com/api/products/${id}`);
       const product = await res.json();
 
       document.getElementById("productImage").src = `/${product.images?.[0] || 'fallback.jpg'}`;
@@ -58,7 +58,7 @@
 
     if (user?.email) {
       try {
-        const res = await fetch('/api/cart/add', {
+        const res = await fetch(https://sodagar-backend.onrender.com'/api/cart/add', {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: user.email, productId, quantity })
