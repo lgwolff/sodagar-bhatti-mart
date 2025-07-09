@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Sodagar Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- 🔺 Header -->
+<header class="bg-red-500 text-white px-6 py-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">Sodagar Bhatti Mart</h1>
+  <a href="cart.html" class="underline">← Back to Cart</a>
+</header>
+
+<!-- 🧾 Main Section -->
+<main class="max-w-4xl mx-auto p-6 bg-white shadow mt-6 rounded">
+  <h2 class="text-2xl font-bold text-red-600 mb-4">Checkout</h2>
+
+  <!-- 🛍️ Order Summary -->
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold mb-2">Order Summary</h3>
+    <div id="summaryDetails" class="text-sm text-gray-700">
+      Loading...
+    </div>
+  </section>
+
+  <!-- 🚚 Shipping Info -->
+  <section class="mb-6">
+    <h3 class="text-lg font-semibold mb-2">Shipping Information</h3>
+    <form id="checkoutForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input type="text" id="name" placeholder="Full Name" required class="p-2 border rounded" />
+      <input type="email" id="email" placeholder="Email" required class="p-2 border rounded" />
+      <input type="text" id="phone" placeholder="Phone Number" required class="p-2 border rounded" />
+      <input type="text" id="address" placeholder="Shipping Address" required class="p-2 border rounded" />
+    </form>
+  </section>
+
+<!-- 💳 Payment Method -->
+<section class="mb-6">
+  <h3 class="text-lg font-semibold mb-2">Payment Method</h3>
+
+  <label class="flex items-center space-x-2">
+    <input type="radio" name="paymentMethod" value="cod" checked />
+    <span>Cash on Delivery</span>
+  </label>
+
+  <label class="flex items-center space-x-2 mt-2">
+    <input type="radio" name="paymentMethod" value="paypal" />
+    <span>PayPal</span>
+  </label>
+
+  <label class="flex items-start space-x-2 mt-2">
+    <input type="radio" name="paymentMethod" value="bank" />
+    <span>
+      <div>Bank Transfer</div>
+      <div class="text-xs text-gray-500 mt-1 ml-6">
+        You’ll receive our bank account info after placing the order.
+      </div>
+    </span>
+  </label>
+</section>
+
+
+  <!-- 📦 Confirm Button -->
+  <button id="placeOrderBtn" class="w-full mt-4 bg-red-500 text-white py-3 rounded hover:bg-red-600 transition">
+    Confirm Order
+  </button>
+</main>
+
+<!-- 🔻 Footer -->
+<footer class="bg-red-500 text-white text-center py-2 mt-12">
+  &copy; Sodagar. All rights reserved.
+</footer>
+
+<script>
+  const summaryDetails = document.getElementById("summaryDetails");
+  const placeOrderBtn = document.getElementById("placeOrderBtn");
+
+  async function loadCartSummary() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?.email) {
+      summaryDetails.innerHTML = "<p class='text-red-500'>You must be logged in.</p>";
+      placeOrderBtn.disabled = true;
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/cart?email=${encodeURIComponent(user.email)}`);
+      const data = await res.json();
+      console.log("📦 Cart data:", data);
+
+      const items = data?.items || [];
+      if (!items.length) {
+        summaryDetails.innerHTML = "<p class='text-gray-500'>🛒 Your cart is empty.</p>";
+        placeOrderBtn.disabled = true;
+        return;
+      }
+
+      let subtotal = 0;
+      items.forEach(item => {
+        const product = item.productId;
+        subtotal += product.price * item.quantity;
+      });
+
+      const delivery = 250;
+      const total = subtotal + delivery;
+
+      summaryDetails.innerHTML = `
+        <p>Subtotal: Rs. ${subtotal.toLocaleString()}</p>
+        <p>Delivery: Rs. ${delivery.toLocaleString()}</p>
+        <p class="font-bold text-lg mt-2">Total: Rs. ${total.toLocaleString()}</p>
+      `;
+    } catch (err) {
+      console.error("❌ Failed to load cart:", err);
+      summaryDetails.innerHTML = "<p class='text-red-500'>❌ Error loading cart.</p>";
+    }
+  }
+
+placeOrderBtn.addEventListener("click", async () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user?.email) return alert("Please log in to place order.");
+
+  const name = document.getElementById("name").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const paymentMethod = document.querySelector("input[name='paymentMethod']:checked")?.value;
+
+  if (!name || !email || !phone || !address) {
+    alert("⚠️ Please fill out all shipping details.");
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/cart/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email, name, phone, address, paymentMethod })
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      alert("❌ Checkout failed: " + data.message);
+      return;
+    }
+
+    alert("✅ Order placed successfully!");
+
+    if (paymentMethod === "bank") {
+      window.location.href = "bank-details.html";
+    } else {
+      window.location.href = "orders.html";
+    }
+  } catch (err) {
+    console.error("❌ Checkout error:", err);
+    alert("❌ Something went wrong. Try again.");
+  }
+});
+
+
+  document.addEventListener("DOMContentLoaded", loadCartSummary);
+</script>
+
+</body>
+</html>
+

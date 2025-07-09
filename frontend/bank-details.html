@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bank Payment - Sodagar Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- 🔺 Header -->
+<header class="bg-red-500 text-white px-6 py-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">Bank Payment Details</h1>
+  <a href="payment.html" class="underline">← Back to Payment</a>
+</header>
+
+<!-- 🏦 Bank Details + Upload -->
+<main class="max-w-3xl mx-auto p-6 bg-white mt-6 rounded shadow">
+  <h2 class="text-2xl font-bold text-red-600 mb-4">Make Bank Transfer</h2>
+
+  <!-- Bank Info -->
+  <section class="mb-6">
+    <p><strong>Bank Name:</strong> HBL (HABIB BANK LTD)</p>
+    <p><strong>Account Title:</strong> IRSLAN AA</p>
+    <p><strong>Account Number:</strong> 04067902501703</p>
+    <p><strong>IBAN:</strong> PK24HABB00004067902501703</p>
+  </section>
+  <section class="mb-6">
+    <p><strong>Bank Name:</strong> EasyPaisa/JazzCash</p>
+    <p><strong>Account Title:</strong> IRSLAN TARIQ</p>
+    <p><strong>Account Number:</strong> 03056241497</p>
+  </section>
+  <hr class="my-4" />
+
+  <!-- Upload Section -->
+  <section>
+    <h3 class="text-lg font-semibold mb-2">Upload Payment Proof</h3>
+    <form id="proofForm" enctype="multipart/form-data" class="space-y-4">
+      <input type="text" id="name" required placeholder="Your Full Name" class="w-full p-2 border rounded" />
+      <input type="email" id="email" required placeholder="Your Email" class="w-full p-2 border rounded" />
+      <input type="text" id="orderId" required placeholder="Order ID" class="w-full p-2 border rounded" />
+
+      <!-- ✅ FIXED: added name="proof" -->
+      <input type="file" id="proofFile" name="proof" required accept="image/*,application/pdf" class="w-full" />
+
+      <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600">Submit Proof</button>
+    </form>
+    <p id="uploadStatus" class="text-sm mt-2 text-green-600 hidden">✅ Upload successful!</p>
+  </section>
+</main>
+
+<!-- 🔻 Footer -->
+<footer class="bg-red-500 text-white text-center py-2 mt-12">
+  &copy; Sodagar. All rights reserved.
+</footer>
+
+<script>
+  const proofForm = document.getElementById("proofForm");
+  const uploadStatus = document.getElementById("uploadStatus");
+
+  proofForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const orderId = document.getElementById("orderId").value.trim();
+    const file = document.getElementById("proofFile").files[0];
+
+    if (!file) {
+      alert("Please select a file to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("orderId", orderId);
+    formData.append("proof", file);
+
+    try {
+      const res = await fetch("/api/payments/upload-proof", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!res.ok) throw new Error("Upload failed");
+
+      uploadStatus.classList.remove("hidden");
+      proofForm.reset();
+    } catch (err) {
+      console.error("❌ Upload error:", err);
+      alert("❌ Failed to upload proof.");
+    }
+  });
+</script>
+
+</body>
+</html>
+

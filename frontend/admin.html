@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Sodagar Bhatti Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="icon" href="favicon.ico" />
+  <style>
+    .sidebar:hover {
+      width: 240px;
+    }
+    .sidebar:hover .label {
+      display: inline;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- 🔺 Header -->
+<header class="bg-red-500 text-white px-6 py-4 shadow flex items-center justify-between">
+  <h1 class="text-xl font-bold">Sodagar Admin Panel</h1>
+  <div>Welcome, Admin</div>
+</header>
+
+<!-- 🔷 Layout Container -->
+<div class="flex">
+  <!-- ⏹️ Sidebar -->
+  <aside class="sidebar bg-white shadow h-screen transition-all duration-300 w-16 hover:w-60 overflow-hidden">
+    <nav class="flex flex-col p-4 space-y-4">
+      <a href="admin.html" class="flex items-center gap-3 text-gray-700 hover:text-red-500">
+        <i data-lucide="layout-dashboard"></i><span class="label hidden">Dashboard</span>
+      </a>
+      <details class="group">
+        <summary class="flex items-center gap-3 cursor-pointer text-gray-700 hover:text-red-500">
+          <i data-lucide="package"></i><span class="label hidden">Orders</span>
+        </summary>
+        <div class="ml-6 mt-2 space-y-1">
+          <a href="admin-orders.html?status=pending" class="block text-sm text-gray-600 hover:text-red-500">Pending Orders</a>
+          <a href="admin-orders.html?status=shipped" class="block text-sm text-gray-600 hover:text-red-500">Shipped Orders</a>
+          <a href="admin-orders.html?status=delivered" class="block text-sm text-gray-600 hover:text-red-500">Delivered Orders</a>
+        </div>
+      </details>
+      <details class="group">
+        <summary class="flex items-center gap-3 cursor-pointer text-gray-700 hover:text-red-500">
+          <i data-lucide="box"></i><span class="label hidden">Products</span>
+        </summary>
+        <div class="ml-6 mt-2 space-y-1">
+          <a href="admin-manage-products.html" class="block text-sm text-gray-600 hover:text-red-500">Manage Products</a>
+          <a href="admin-add-product.html" class="block text-sm text-gray-600 hover:text-red-500">Add Product</a>
+        </div>
+      </details>
+<a href="admin-payments.html" class="flex items-center gap-3 text-gray-700 hover:text-red-500">
+  <i data-lucide="credit-card"></i><span class="label hidden">Bank Payments</span>
+</a>
+
+      <a href="#" class="flex items-center gap-3 text-gray-700 hover:text-red-500">
+        <i data-lucide="log-out"></i><span class="label hidden">Logout</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- ⬜ Main Content -->
+  <main class="flex-1 p-6">
+    <h2 class="text-2xl font-bold text-red-600 mb-4">Dashboard</h2>
+
+    <!-- 🔸 Order Summary Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
+      <a href="admin-orders.html?status=pending" class="bg-white p-4 rounded shadow hover:shadow-md transition border-l-4 border-yellow-500">
+        <h3 class="text-lg font-semibold">Pending Orders</h3>
+        <p class="text-sm text-gray-500">Click to view pending</p>
+      </a>
+      <a href="admin-orders.html?status=shipped" class="bg-white p-4 rounded shadow hover:shadow-md transition border-l-4 border-blue-500">
+        <h3 class="text-lg font-semibold">Shipped Orders</h3>
+        <p class="text-sm text-gray-500">Click to view shipped</p>
+      </a>
+      <a href="admin-orders.html?status=delivered" class="bg-white p-4 rounded shadow hover:shadow-md transition border-l-4 border-green-500">
+        <h3 class="text-lg font-semibold">Delivered Orders</h3>
+        <p class="text-sm text-gray-500">Click to view delivered</p>
+      </a>
+    </div>
+
+<!-- 📊 Summary -->
+<!-- 📊 Income Summary Section -->
+<!-- 💰 Payment Overview Summary -->
+<div id="paymentOverview" class="bg-white p-4 rounded shadow mb-6">
+  <h3 class="text-lg font-semibold text-gray-800 mb-2">💳 Payment Summary</h3>
+  <p class="text-sm text-gray-500">Loading...</p>
+</div>
+
+<section class="max-w-6xl mx-auto mt-10">
+  <h2 class="text-2xl font-bold text-red-600 mb-4">Income Reports</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- Monthly Income -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">📅 Monthly Income (This Year)</h3>
+      <ul id="monthlyIncomeList" class="space-y-1 text-sm text-gray-700">
+        <li>Loading...</li>
+      </ul>
+    </div>
+
+    <!-- Yearly Income -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">📈 Yearly Income</h3>
+      <ul id="yearlyIncomeList" class="space-y-1 text-sm text-gray-700">
+        <li>Loading...</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+<!-- ⚙️ Admin Settings -->
+<section class="max-w-4xl mx-auto mt-10">
+  <h2 class="text-2xl font-bold text-red-600 mb-4">Settings</h2>
+
+  <!-- Admin Info Card -->
+  <div class="bg-white rounded-lg shadow p-6 mb-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-2">👤 Admin Profile</h3>
+    
+    <form id="adminSettingsForm" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Admin Email</label>
+        <input type="email" value="help@sodagarbhatti.infy.uk" readonly class="w-full p-3 border rounded bg-gray-100 text-gray-500 cursor-not-allowed" />
+      </div>
+
+      <div>
+        <label for="newPassword" class="block text-sm font-medium text-gray-700 mb-1">Change Password</label>
+        <input type="password" id="newPassword" placeholder="New password" class="w-full p-3 border rounded" />
+      </div>
+
+      <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Update Password</button>
+    </form>
+
+    <p id="passwordStatus" class="text-sm mt-3 hidden"></p>
+  </div>
+</section>
+
+
+<!-- 🔻 Footer -->
+<footer class="bg-red-500 text-white text-center py-2 mt-8">
+  &copy; Sodagar. All rights reserved.
+</footer>
+
+<!-- ✅ Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+<script>
+  async function loadPaymentSummary() {
+    try {
+      const res = await fetch("/api/orders/summary");
+      const data = await res.json();
+
+      const container = document.getElementById("paymentOverview");
+      container.innerHTML = `
+        <p class="text-sm text-gray-700"><strong>Total Orders:</strong> ${data.totalOrders || 0}</p>
+        <p class="text-sm text-gray-700"><strong>Paid Orders:</strong> ${data.paidOrders || 0}</p>
+        <p class="text-sm text-gray-700"><strong>Total Revenue:</strong> PKR ${data.totalRevenue || 0}</p>
+      `;
+    } catch (err) {
+      console.error("❌ Failed to fetch summary:", err);
+      const container = document.getElementById("paymentOverview");
+      container.innerHTML = `<p class="text-red-500">Failed to load summary.</p>`;
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", loadPaymentSummary);
+</script>
+
+<script>
+  async function loadIncomeReports() {
+    try {
+      // Monthly Income
+      const monthlyRes = await fetch('/api/admin/income/monthly');
+      const monthly = await monthlyRes.json();
+      const monthlyList = document.getElementById("monthlyIncomeList");
+      monthlyList.innerHTML = '';
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      monthly.forEach(entry => {
+        const li = document.createElement("li");
+        li.textContent = `${monthNames[entry._id - 1]}: Rs. ${Math.round(entry.total).toLocaleString()}`;
+        monthlyList.appendChild(li);
+      });
+
+      // Yearly Income
+      const yearlyRes = await fetch('/api/admin/income/yearly');
+      const yearly = await yearlyRes.json();
+      const yearlyList = document.getElementById("yearlyIncomeList");
+      yearlyList.innerHTML = '';
+      yearly.forEach(entry => {
+        const li = document.createElement("li");
+        li.textContent = `${entry._id}: Rs. ${Math.round(entry.total).toLocaleString()}`;
+        yearlyList.appendChild(li);
+      });
+
+    } catch (err) {
+      console.error("Failed to load income reports:", err);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadIncomeReports);
+</script>
+<script>
+  const adminForm = document.getElementById("adminSettingsForm");
+  const statusText = document.getElementById("passwordStatus");
+
+  adminForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const newPassword = document.getElementById("newPassword").value.trim();
+
+    if (!newPassword || newPassword.length < 6) {
+      statusText.textContent = "❌ Password must be at least 6 characters.";
+      statusText.className = "text-red-500 text-sm mt-3";
+      statusText.classList.remove("hidden");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/admin/update-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: newPassword })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      statusText.textContent = "✅ Password updated successfully!";
+      statusText.className = "text-green-600 text-sm mt-3";
+    } catch (err) {
+      statusText.textContent = `❌ ${err.message}`;
+      statusText.className = "text-red-500 text-sm mt-3";
+    }
+
+    statusText.classList.remove("hidden");
+  });
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sodagar Bhatti Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            mercury: { red: '#e63946', dark: '#d62828' },
+          },
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-white text-black font-sans">
+<body class="bg-white text-black font-sans">
+
+<!-- 🔺 Top Action Bar -->
+<div class="w-full bg-mercury-red text-white text-sm py-2 px-4 flex justify-end items-center gap-4">
+
+  <a id="link-sell" href="">Sell on Sodagar (coming soon)</a>
+  <a href="help.html" class="hover:underline">Help & Support</a>
+<!-- 🔄 Auth Buttons or User Info (Dynamic) -->
+<div id="authButtons" class="flex items-center gap-2">
+  <a href="login.html" id="link-login" class="hover:underline">Login</a>
+  <a href="signup.html" id="link-signup" class="hover:underline">Signup</a>
+</div>
+
+<div id="userInfo" class="hidden items-center gap-2">
+  <span id="greeting" class="text-sm"></span>
+  <img id="userAvatar" src="" alt="Profile" class="w-6 h-6 rounded-full object-cover" />
+  <button id="signoutBtn" class="text-xs text-white underline hover:text-gray-200">Sign out</button>
+</div>
+
+
+  <!-- 💱 Currency Selector -->
+  <select id="currencySelector" class="bg-mercury-red border-none text-white text-sm focus:outline-none cursor-pointer">
+    <option value="PKR">PKR</option>
+    <option value="USD">$ USD</option>
+  </select>
+
+</div>
+
+<!-- 🔴 Main Navigation -->
+<div class="w-full bg-mercury-red text-white">
+  <div class="max-w-screen-xl mx-auto px-4 flex items-center h-[75px] space-x-4">
+
+    <!-- 🔹 Clickable Logo -->
+    <a href="index.html" class="flex items-center w-[200px] h-[75px]">
+      <img src="logo.png" alt="Sodagar Bhatti Mart" class="w-[127px] h-[40px] object-contain" />
+    </a>
+
+<!-- 🔹 Search Bar with Icon -->
+<div class="relative flex items-center w-[688px] h-[75px]">
+  <input 
+    id="searchInput"
+    type="text"
+    placeholder="Search for products..."
+    class="w-full h-[45px] pl-4 pr-10 rounded border-none outline-none text-black bg-white placeholder-gray-500"
+  />
+  <!-- 🔍 Icon -->
+  <button id="searchBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-mercury-red hover:text-mercury-dark">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+            d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
+    </svg>
+  </button>
+</div>
+
+
+    <!-- 🔹 Cart Icon (no auto margin now) -->
+    <a href="cart.html" class="flex items-center justify-center w-[40px] h-[75px]">
+      <img src="cart-icon.png" alt="Cart" class="w-[30px] h-[30px]" />
+    </a>
+
+  </div>
+</div>
+<!-- 🔻 Image Slider Wrapper -->
+<div class="w-full bg-gray-100 flex justify-center py-4">
+  <div class="w-[1366px] h-[344px] flex items-center justify-center relative overflow-hidden rounded-xl shadow-lg">
+
+    <!-- 🔄 Clickable Slide -->
+    <a id="sliderLink" href="#" class="block w-[1300px] h-[320px] transition-all duration-500 ease-in-out">
+      <img
+        id="sliderImage"
+        src="slider1.jpg"
+        alt="Slider"
+        class="w-full h-full object-cover rounded-lg"
+      />
+    </a>
+
+    <!-- ◀️ Prev Button -->
+    <button
+      onclick="prevSlide()"
+      class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/70 text-black px-2 py-1 rounded-full shadow hover:bg-white"
+    >
+      ◀
+    </button>
+
+    <!-- ▶️ Next Button -->
+    <button
+      onclick="nextSlide()"
+      class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/70 text-black px-2 py-1 rounded-full shadow hover:bg-white"
+    >
+      ▶
+    </button>
+  </div>
+</div>
+<!-- 🟨 Promotion Block -->
+<div class="w-full flex justify-center py-4">
+  <a href="#" class="block w-[1180px] h-[140px] rounded-xl overflow-hidden shadow-md transition-transform duration-300 hover:scale-[1.01]">
+    <img 
+      src="promo1.jpg" 
+      alt="Promotion"
+      class="w-full h-full object-cover"
+    />
+  </a>
+</div>
+<!-- 🔥 Flash Sale Section -->
+<div class="w-full bg-white py-6 flex justify-center">
+  <div class="w-[1188px]">
+
+    <!-- 🔹 Section Title -->
+    <h2 id="title-flashSale" class="text-2xl font-bold text-mercury-red mb-2">Flash Sale!</h2>
+
+    <!-- 🔹 Subheader: "On Sale" + Button -->
+    <div class="flex items-center justify-between mb-4">
+      <span id="text-onSale" class="text-lg font-semibold text-gray-800">On Sale</span>
+     <a id="btn-shopAll" href="flash-sale.html" class="text-sm bg-mercury-red hover:bg-mercury-dark text-white px-4 py-2 rounded transition duration-200">
+  SHOP ALL PRODUCTS
+</a>
+    </div>
+
+<div id="flashSaleGrid" class="grid grid-cols-6 gap-4">
+  <!-- real products will be injected here -->
+</div>
+
+  </div>
+</div>
+<!-- 🗂️ Categories Section -->
+<div class="w-full bg-white py-6 flex justify-center">
+  <div class="w-[1188px] h-[297px]">
+
+    <!-- 🔹 Title -->
+    <h2 id="title-categories" class="text-2xl font-bold text-mercury-red mb-4">Categories</h2>
+
+    <!-- 🔄 Dynamic Category Grid -->
+    <div id="categoryGrid" class="grid grid-cols-8 gap-4">
+      <!-- Real categories will be injected here via JS -->
+    </div>
+
+  </div>
+</div>
+
+
+<!-- 🎁 Just For You Section -->
+<div class="w-full bg-white py-6 flex justify-center">
+  <div class="w-[1188px]">
+
+    <!-- 🔹 Title -->
+   <h2 id="title-justForYou" class="text-2xl font-bold text-mercury-red mb-4">Just For You!</h2>
+
+
+    <!-- 🛒 Products Grid Container -->
+   <div id="justForYouGrid" class="grid grid-cols-6 gap-4">
+  <!-- real products will be injected here -->
+</div>
+
+    <!-- 🔘 Load More Button -->
+    <div class="flex justify-center mt-6">
+      <button 
+        id="loadMoreBtn" 
+        class="bg-mercury-red hover:bg-mercury-dark text-white px-6 py-2 rounded shadow"
+      >
+        LOAD MORE
+      </button>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- 📎 Useful Links & Payment Methods -->
+<div class="w-full bg-white pt-8 pb-12 flex justify-center border-t border-gray-200">
+  <div class="w-[1188px]">
+
+    <!-- 🔹 Useful Links -->
+   <h2 id="title-usefulLinks" class="text-xl font-bold text-mercury-red mb-4">Useful Links</h2>
+
+    <div class="grid grid-cols-4 gap-6 mb-10 text-sm text-gray-700">
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:underline">About Us</a></li>
+        <li><a href="#" class="hover:underline">Contact</a></li>
+        <li><a href="#" class="hover:underline">Careers</a></li>
+        <li><a href="#" class="hover:underline">Press & Media</a></li>
+      </ul>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:underline">Terms & Conditions</a></li>
+        <li><a href="#" class="hover:underline">Privacy Policy</a></li>
+        <li><a href="#" class="hover:underline">Return Policy</a></li>
+        <li><a href="#" class="hover:underline">FAQs</a></li>
+      </ul>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:underline">Track Your Order</a></li>
+        <li><a href="#" class="hover:underline">Sell on Sodagar</a></li>
+        <li><a href="#" class="hover:underline">Affiliate Program</a></li>
+        <li><a href="#" class="hover:underline">Gift Cards</a></li>
+      </ul>
+      <ul class="space-y-2">
+        <li><a href="#" class="hover:underline">Customer Support</a></li>
+        <li><a href="#" class="hover:underline">Payment Options</a></li>
+        <li><a href="#" class="hover:underline">Mobile App</a></li>
+        <li><a href="#" class="hover:underline">Store Locator</a></li>
+      </ul>
+    </div>
+
+    <!-- 🔸 Payment Methods -->
+    <h2 id="title-paymentMethods" class="text-xl font-bold text-mercury-red mb-4">Payment Methods</h2>
+    <div class="flex flex-wrap items-center gap-4">
+      <!-- Use real logos if you have them -->
+      <img src="cod.png" alt="Cash on Delivery" class="h-8 object-contain" />
+      <img src="visa.png" alt="Visa" class="h-8 object-contain" />
+      <img src="mastercard.png" alt="MasterCard" class="h-8 object-contain" />
+      <img src="easypaisa.png" alt="Easypaisa" class="h-8 object-contain" />
+      <img src="sodagar-wallet.png" alt="Sodagar Wallet" class="h-8 object-contain" />
+      <img src="jazzcash.png" alt="JazzCash" class="h-8 object-contain" />
+      <img src="unionpay.png" alt="UnionPay" class="h-8 object-contain" />
+      <img src="hbl.png" alt="HBL" class="h-8 object-contain" />
+    </div>
+
+  </div>
+</div>
+
+<!-- 🔻 Footer -->
+<footer class="bg-mercury-red text-white text-sm">
+  <div class="max-w-screen-xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between space-y-2 md:space-y-0">
+
+    <!-- 🔹 Left: Title -->
+    <div class="font-semibold text-base">
+      Sodagar International
+    </div>
+
+    <!-- 🔹 Middle: Pakistan Flag + Country + Social Icons -->
+    <div class="flex items-center space-x-4">
+
+      <!-- 🇵🇰 Pakistan Flag + Text -->
+      <div class="flex items-center space-x-1">
+        <img src="https://flagcdn.com/w40/pk.png" alt="Pakistan" class="w-5 h-5 rounded-full object-cover" />
+        <span>Pakistan</span>
+      </div>
+
+      <!-- 🌐 Social Icons -->
+      <div class="flex items-center space-x-3">
+        <a href="#" aria-label="Facebook" class="hover:text-gray-200">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M22 12a10 10 0 10-11.5 9.9v-7h-2v-2.9h2v-2.2c0-2 1.2-3.1 3-3.1.9 0 1.9.1 1.9.1v2.1h-1.1c-1 0-1.3.6-1.3 1.2v1.9h2.3l-.4 2.9h-1.9v7A10 10 0 0022 12z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="Instagram" class="hover:text-gray-200">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 2 .3 2.5.5a4.9 4.9 0 011.8 1.2c.5.5.9 1.1 1.2 1.8.2.5.4 1.3.5 2.5.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 2-.5 2.5a4.9 4.9 0 01-1.2 1.8 4.9 4.9 0 01-1.8 1.2c-.5.2-1.3.4-2.5.5-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-2-.3-2.5-.5a4.9 4.9 0 01-1.8-1.2 4.9 4.9 0 01-1.2-1.8c-.2-.5-.4-1.3-.5-2.5C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.3-2 .5-2.5a4.9 4.9 0 011.2-1.8A4.9 4.9 0 016.2 2.8c.5-.2 1.3-.4 2.5-.5C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.4 0-4.6.1-1.1.1-1.7.3-2.1.5a3.2 3.2 0 00-1.2.8c-.4.4-.6.8-.8 1.2-.2.4-.4 1-.5 2.1-.1 1.2-.1 1.5-.1 4.6s0 3.4.1 4.6c.1 1.1.3 1.7.5 2.1a3.2 3.2 0 00.8 1.2c.4.4.8.6 1.2.8.4.2 1 .4 2.1.5 1.2.1 1.5.1 4.6.1s3.4 0 4.6-.1c1.1-.1 1.7-.3 2.1-.5.5-.2.9-.4 1.2-.8.4-.4.6-.8.8-1.2.2-.4.4-1 .5-2.1.1-1.2.1-1.5.1-4.6s0-3.4-.1-4.6c-.1-1.1-.3-1.7-.5-2.1a3.2 3.2 0 00-.8-1.2 3.2 3.2 0 00-1.2-.8c-.4-.2-1-.4-2.1-.5-1.2-.1-1.5-.1-4.6-.1zm0 3.3a6.5 6.5 0 016.5 6.5A6.5 6.5 0 0112 18.3a6.5 6.5 0 01-6.5-6.5A6.5 6.5 0 0112 7.3zm0 1.8a4.7 4.7 0 100 9.3 4.7 4.7 0 000-9.3zm6.7-2a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="X" class="hover:text-gray-200">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20 4h-3l-4 5-4-5H4l6.5 8L4 20h3l4-5 4 5h3l-6.5-8L20 4z"/>
+          </svg>
+        </a>
+        <a href="#" aria-label="YouTube" class="hover:text-gray-200">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23.5 6.2s-.2-1.6-.8-2.3a3.4 3.4 0 00-2.4-.9C17.3 3 12 3 12 3s-5.3 0-8.3.1a3.4 3.4 0 00-2.4.9c-.6.7-.8 2.3-.8 2.3S0 8.3 0 10.3v2.1c0 2 .2 4.1.2 4.1s.2 1.6.8 2.3a3.4 3.4 0 002.4.9c3 .1 8.3.1 8.3.1s5.3 0 8.3-.1a3.4 3.4 0 002.4-.9c.6-.7.8-2.3.8-2.3s.2-2 .2-4.1v-2.1c0-2-.2-4.1-.2-4.1zM9.5 15.3v-6l6.3 3-6.3 3z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- 🔹 Right: Copyright -->
+    <div class="text-xs text-white text-right">
+      &copy; Sodagar Bhatti Mart
+    </div>
+
+  </div>
+</footer>
+
+<!-- Scripts below unchanged except fixed product loader -->
+<script>
+  const exchangeRate = 1 / 290;
+  const currencySelector = document.getElementById("currencySelector");
+  function formatPrice(value, currency) {
+    return currency === "USD"
+      ? `$ ${value.toFixed(2)}`
+      : `Rs. ${Math.round(value).toLocaleString()}`;
+  }
+  function applyCurrency(currency) {
+    document.querySelectorAll(".price").forEach(el => {
+      const pkr = parseFloat(el.dataset.pkr);
+      if (!isNaN(pkr)) {
+        const final = currency === "USD" ? pkr * exchangeRate : pkr;
+        el.textContent = formatPrice(final, currency);
+      }
+    });
+  }
+  const currentCurrency = localStorage.getItem("currency") || "PKR";
+  currencySelector.value = currentCurrency;
+  applyCurrency(currentCurrency);
+  currencySelector.addEventListener("change", () => {
+    localStorage.setItem("currency", currencySelector.value);
+    applyCurrency(currencySelector.value);
+  });
+</script>
+
+<!-- 2. Product Grid Loader (Shared for Just for You, Flash Sale, etc.) -->
+<script>
+async function loadProducts(targetId) {
+  const currency = localStorage.getItem("currency") || "PKR";
+  const res = await fetch("/api/products");
+  const all = await res.json();
+
+  const container = document.getElementById(targetId);
+  container.innerHTML = '';
+
+  all.forEach(product => {
+    const pkr = product.price || 0;
+    const price = currency === 'USD' ? pkr * (1 / 290) : pkr;
+    const formattedPrice = currency === 'USD' ? `$ ${price.toFixed(2)}` : `Rs. ${Math.round(price).toLocaleString()}`;
+
+    const card = document.createElement('a');
+    card.href = `product.html?id=${product._id}`;
+    card.className = "relative bg-white border rounded shadow hover:shadow-md transition p-2 flex flex-col items-center text-center";
+
+    card.innerHTML = `
+      ${product.onSale ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">On Sale!</span>` : ''}
+      <img src="${product.images?.[0] || 'fallback.jpg'}" alt="${product.name}" class="w-full h-[140px] object-cover rounded" />
+      <div class="mt-2 text-sm font-semibold text-gray-800 truncate">${product.name}</div>
+      <div class="price text-xs text-mercury-red font-bold mt-1" data-pkr="${pkr}">${formattedPrice}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    loadProducts("justForYouGrid");
+    loadProducts("flashSaleGrid");
+  });
+</script>
+
+
+<<script>
+  async function loadCategories() {
+    const res = await fetch("/api/categories");
+    const categories = await res.json();
+
+    const grid = document.getElementById("categoryGrid");
+    grid.innerHTML = '';
+
+    categories.forEach(cat => {
+      const block = document.createElement('a');
+      block.href = `search.html?category=${encodeURIComponent(cat.name)}`;
+      block.className = "flex flex-col items-center justify-center p-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition text-center";
+      block.innerHTML = `
+        <img src="${cat.icon || 'default-cat.png'}" alt="${cat.name}" class="w-12 h-12 object-contain mb-2" />
+        <span class="text-sm font-medium text-gray-700 truncate">${cat.name}</span>
+      `;
+      grid.appendChild(block);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", loadCategories);
+</script>
+
+<!-- 4. Search Bar Logic -->
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+
+  function performSearch() {
+    const query = searchInput.value.trim();
+    if (query !== '') {
+      window.location.href = `search.html?query=${encodeURIComponent(query)}`;
+    }
+  }
+
+  searchBtn.addEventListener('click', performSearch);
+  searchInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      performSearch();
+    }
+  });
+</script>
+
+<!-- 5. Slider Script (Keep as-is) -->
+<script>
+  const slides = [
+    { img: "slider1.jpg", link: "#" },
+    { img: "slider2.jpg", link: "#" },
+    { img: "slider3.jpg", link: "#" }
+  ];
+
+  let currentSlide = 0;
+  const sliderImage = document.getElementById("sliderImage");
+  const sliderLink = document.getElementById("sliderLink");
+
+  function showSlide(index) {
+    currentSlide = index % slides.length;
+    sliderImage.src = slides[currentSlide].img;
+    sliderLink.href = slides[currentSlide].link;
+  }
+
+  function nextSlide() {
+    showSlide((currentSlide + 1) % slides.length);
+  }
+
+  function prevSlide() {
+    showSlide((currentSlide - 1 + slides.length) % slides.length);
+  }
+
+  setInterval(nextSlide, 5000);
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const userData = JSON.parse(localStorage.getItem("user"));
+    const authButtons = document.getElementById("authButtons");
+    const userInfo = document.getElementById("userInfo");
+
+    if (userData && userData.name) {
+      authButtons.classList.add("hidden");
+      userInfo.classList.remove("hidden");
+      document.getElementById("greeting").textContent = `Hello, ${userData.name}!`;
+      document.getElementById("userAvatar").src = userData.avatar || "default-avatar.png";
+    } else {
+      authButtons.classList.remove("hidden");
+      userInfo.classList.add("hidden");
+    }
+
+    // ✅ Sign out logic
+    const signoutBtn = document.getElementById("signoutBtn");
+    if (signoutBtn) {
+      signoutBtn.addEventListener("click", () => {
+        localStorage.removeItem("user");
+        window.location.href = "index.html"; // or refresh
+      });
+    }
+  });
+</script>
+</body>
+</html>
+

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- Header -->
+<header class="bg-red-500 text-white p-4 flex justify-between">
+  <h1 class="text-xl font-bold">Sodagar Bhatti Mart</h1>
+  <a href="cart.html" class="underline">🛒 Cart</a>
+</header>
+
+<!-- Product Display -->
+<main class="max-w-4xl mx-auto mt-8 p-6 bg-white rounded shadow">
+  <div class="flex flex-col md:flex-row gap-6">
+    <img id="productImage" class="w-full md:w-1/2 rounded object-cover" alt="Product Image"/>
+    <div class="flex-1 space-y-3">
+      <h2 id="productName" class="text-2xl font-bold"></h2>
+      <p id="productPrice" class="text-lg text-red-600 font-semibold"></p>
+      <p id="productDesc" class="text-sm text-gray-700"></p>
+      <button id="addToCartBtn" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        Add to Cart
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- Script -->
+<script>
+  async function loadProduct() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    if (!id) return alert('❌ Product ID missing in URL');
+
+    try {
+      const res = await fetch(`/api/products/${id}`);
+      const product = await res.json();
+
+      document.getElementById("productImage").src = `/${product.images?.[0] || 'fallback.jpg'}`;
+      document.getElementById("productName").textContent = product.name;
+      document.getElementById("productPrice").textContent = `Rs. ${Math.round(product.price).toLocaleString()}`;
+      document.getElementById("productDesc").textContent = product.description;
+
+      document.getElementById("addToCartBtn").addEventListener("click", () => addToCart(product._id));
+    } catch (err) {
+      console.error("❌ Failed to load product", err);
+      alert("❌ Error loading product.");
+    }
+  }
+
+  async function addToCart(productId) {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const quantity = 1;
+
+    if (user?.email) {
+      try {
+        const res = await fetch('/api/cart/add', {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: user.email, productId, quantity })
+        });
+        const data = await res.json();
+        console.log("📥 Add to cart response:", data);
+
+        if (!res.ok) {
+          alert("❌ Failed to add to cart: " + data.message);
+          return;
+        }
+
+        alert("✅ Added to cart!");
+      } catch (err) {
+        console.error("❌ Cart error:", err);
+        alert("❌ Failed to add to cart.");
+      }
+    } else {
+      let guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+      const existing = guestCart.find(item => item.productId === productId);
+
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        guestCart.push({ productId, quantity });
+      }
+
+      localStorage.setItem("guestCart", JSON.stringify(guestCart));
+      console.log("🛒 Guest cart updated:", guestCart);
+      alert("✅ Added to guest cart!");
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadProduct);
+</script>
+
+</body>
+</html>
+

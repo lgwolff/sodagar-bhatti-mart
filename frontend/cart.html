@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - Sodagar Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- 🔺 Header -->
+<header class="bg-red-500 text-white px-6 py-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">Sodagar Bhatti Mart</h1>
+  <a href="index.html" class="underline">← Continue Shopping</a>
+</header>
+
+<!-- 🛒 Cart Section -->
+<main class="max-w-5xl mx-auto p-6">
+  <h2 class="text-2xl font-bold text-red-600 mb-4">Your Shopping Cart</h2>
+
+  <div id="cartContainer" class="bg-white rounded shadow p-4 space-y-4">
+    <p class="text-gray-600" id="cartStatus">Loading...</p>
+  </div>
+
+  <!-- Subtotal + Checkout -->
+  <div id="cartSummary" class="mt-6 hidden">
+    <p class="text-right text-lg font-bold text-gray-800 mb-4">
+      Subtotal: Rs. <span id="subtotal">0</span>
+    </p>
+    <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded block ml-auto">
+      Proceed to Checkout
+    </button>
+  </div>
+
+</main>
+
+<!-- 🔻 Footer -->
+<footer class="bg-red-500 text-white text-center py-2 mt-12">
+  &copy; Sodagar. All rights reserved.
+</footer>
+
+<script>
+  const cartContainer = document.getElementById("cartContainer");
+  const cartStatus = document.getElementById("cartStatus");
+  const subtotalEl = document.getElementById("subtotal");
+  const cartSummary = document.getElementById("cartSummary");
+  document.addEventListener("DOMContentLoaded", loadCart);
+
+
+  async function loadCart() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    let cartItems = [];
+
+    if (user?.email) {
+      const res = await fetch(`/api/cart?email=${user.email}`);
+      const data = await res.json();
+      cartItems = data.items || [];
+    } else {
+      const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+      for (const item of guestCart) {
+        const res = await fetch(`/api/products/${item.productId}`);
+        const product = await res.json();
+        cartItems.push({ productId: product, quantity: item.quantity });
+      }
+    }
+
+    if (cartItems.length === 0) {
+      cartStatus.textContent = "🛒 Your cart is empty.";
+      cartSummary.classList.add("hidden");
+      return;
+    }
+
+    let total = 0;
+    cartStatus.remove();
+    cartContainer.innerHTML = "";
+
+    cartItems.forEach(item => {
+      const product = item.productId;
+      const quantity = item.quantity;
+      const price = product.price;
+      const itemTotal = quantity * price;
+      total += itemTotal;
+
+      const row = document.createElement("div");
+      row.className = "flex items-center gap-4 border-b pb-4";
+
+      row.innerHTML = `
+        <img src="/${product.images?.[0] || 'fallback.jpg'}" class="w-16 h-16 object-cover rounded" />
+        <div class="flex-1">
+          <p class="font-semibold">${product.name}</p>
+          <p class="text-sm text-gray-500">Rs. ${price} × ${quantity} = Rs. ${itemTotal}</p>
+          <div class="flex items-center gap-2 mt-1">
+            <button class="qty-btn px-2 bg-gray-200 rounded text-sm" data-action="decrease" data-id="${product._id}">-</button>
+            <span class="text-sm">${quantity}</span>
+            <button class="qty-btn px-2 bg-gray-200 rounded text-sm" data-action="increase" data-id="${product._id}">+</button>
+          </div>
+        </div>
+        <button class="text-sm text-red-500 hover:underline remove-btn" data-id="${product._id}">Remove</button>
+      `;
+
+      cartContainer.appendChild(row);
+    });
+
+    subtotalEl.textContent = total.toLocaleString();
+    cartSummary.classList.remove("hidden");
+
+    setupQuantityHandlers();
+    setupRemoveHandlers();
+  }
+
+  function setupQuantityHandlers() {
+    document.querySelectorAll(".qty-btn").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        const action = e.target.dataset.action;
+        const id = e.target.dataset.id;
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (user?.email) {
+          await fetch("/api/cart/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: user.email, productId: id, action })
+          });
+        } else {
+          let guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+          guestCart = guestCart.map(i => {
+            if (i.productId === id) {
+              if (action === "increase") i.quantity++;
+              else if (action === "decrease" && i.quantity > 1) i.quantity--;
+            }
+            return i;
+          });
+          localStorage.setItem("guestCart", JSON.stringify(guestCart));
+        }
+
+        loadCart();
+      });
+    });
+  }
+
+  function setupRemoveHandlers() {
+    document.querySelectorAll(".remove-btn").forEach(btn => {
+      btn.addEventListener("click", async (e) => {
+        const id = e.target.dataset.id;
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        if (user?.email) {
+          await fetch("/api/cart/remove", {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: user.email, productId: id })
+          });
+        } else {
+          let guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+          guestCart = guestCart.filter(i => i.productId !== id);
+          localStorage.setItem("guestCart", JSON.stringify(guestCart));
+        }
+
+        loadCart();
+      });
+    });
+  }
+
+  document.querySelector("#cartSummary button").addEventListener("click", () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user?.email) {
+    alert("Please log in to proceed to checkout.");
+    return;
+  }
+
+  window.location.href = "payment.html";
+});
+
+
+</script>
+</body>
+</html>
+

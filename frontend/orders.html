@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Orders - Sodagar Mart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<!-- 🔺 Header -->
+<header class="bg-red-500 text-white px-6 py-4 flex justify-between items-center">
+  <h1 class="text-xl font-bold">Sodagar Bhatti Mart</h1>
+  <a href="index.html" class="underline">← Back to Home</a>
+</header>
+
+<!-- 📦 Orders Section -->
+<main class="max-w-4xl mx-auto p-6">
+  <h2 class="text-2xl font-bold text-red-600 mb-4">Your Orders</h2>
+  <div id="ordersContainer" class="space-y-6">
+    <p>Loading orders...</p>
+  </div>
+</main>
+
+<!-- 🔻 Footer -->
+<footer class="bg-red-500 text-white text-center py-2 mt-12">
+  &copy; Sodagar. All rights reserved.
+</footer>
+
+<script>
+  async function loadOrders() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const container = document.getElementById("ordersContainer");
+
+    if (!user?.email) {
+      container.innerHTML = `<p class="text-red-600">You must be logged in to view your orders.</p>`;
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/orders/user?email=${user.email}`);
+      const orders = await res.json();
+
+      if (orders.length === 0) {
+        container.innerHTML = `<p class="text-gray-600">You have no orders yet.</p>`;
+        return;
+      }
+
+      container.innerHTML = '';
+
+      orders.forEach(order => {
+        const orderDiv = document.createElement('div');
+        orderDiv.className = "bg-white p-4 rounded shadow";
+
+        const date = new Date(order.createdAt).toLocaleDateString();
+
+        orderDiv.innerHTML = `
+          <h3 class="font-bold text-lg mb-1">Order ID: ${order._id}</h3>
+          <p class="text-sm text-gray-500">Status: <span class="capitalize">${order.status}</span></p>
+          <p class="text-sm text-gray-500 mb-2">Date: ${date}</p>
+          <ul class="text-sm text-gray-700 list-disc ml-6">
+            ${order.items.map(i => `
+              <li>${i.quantity} × Rs. ${i.price} = Rs. ${i.quantity * i.price}</li>
+            `).join('')}
+          </ul>
+          <p class="mt-2 font-bold">Total: Rs. ${order.total}</p>
+        `;
+
+        container.appendChild(orderDiv);
+      });
+
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = `<p class="text-red-600">Failed to load orders.</p>`;
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", loadOrders);
+</script>
+
+</body>
+</html>
+
