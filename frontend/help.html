@@ -135,7 +135,7 @@
       const message = document.getElementById('message').value.trim();
 
       try {
-        const res = await fetch('/api/support', {
+        const res = await fetch('https://sodagar-backend.onrender.com/api/support', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, message })
