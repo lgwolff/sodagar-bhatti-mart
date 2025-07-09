@@ -9,10 +9,8 @@ const PORT = 3000;
 const productRoutes = require('./routes/products');
 
 // ✅ Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/sodagar', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
+mongoose.connect(process.env.MONGODB_URI);
+.then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // ✅ Middleware
