@@ -6,6 +6,10 @@ const path = require('path');
 const fs = require('fs');
 
 // ✅ Admin: Get all products
+router.get('/categories', (req, res) => {
+  res.json(['electronics', 'clothing', 'beauty', 'home', 'other']);
+});
+
 router.get('/admin/products', async (req, res) => {
   try {
     const products = await Product.find();
@@ -147,10 +151,6 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
-// ✅ Add this route at the bottom of routes/products.js
-router.get('/categories', (req, res) => {
-  res.json(['electronics', 'clothing', 'beauty', 'home', 'other']);
-});
 
 module.exports = router;
 
