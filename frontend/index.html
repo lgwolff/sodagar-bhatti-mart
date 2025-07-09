@@ -322,7 +322,7 @@ async function loadProducts(targetId) {
   const res = await fetch("https://sodagar-backend.onrender.com/api/products");
   const all = await res.json();
 
-  const container = document.gertElementById(targetId);
+  const container = document.getElementById(targetId);
   container.innerHTML = '';
 
   all.forEach(product => {
