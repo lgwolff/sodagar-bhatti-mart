@@ -87,7 +87,7 @@
     }
 
     try {
-      const res = await fetch(`/api/cart?email=${encodeURIComponent(user.email)}`);
+      const res = await fetch(`https://sodagar-backend.onrender.com/api/cart?email=${encodeURIComponent(user.email)}`);
       const data = await res.json();
       console.log("📦 Cart data:", data);
 
@@ -134,7 +134,7 @@ placeOrderBtn.addEventListener("click", async () => {
   }
 
   try {
-    const res = await fetch("/api/cart/checkout", {
+    const res = await fetch("https://sodagar-backend.onrender.com/api/cart/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email: user.email, name, phone, address, paymentMethod })
