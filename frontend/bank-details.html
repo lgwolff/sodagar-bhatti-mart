@@ -78,7 +78,7 @@
     formData.append("proof", file);
 
     try {
-      const res = await fetch("/api/payments/upload-proof", {
+      const res = await fetch("https://sodagar-backend.onrender.com/api/payments/upload-proof", {
         method: "POST",
         body: formData
       });
