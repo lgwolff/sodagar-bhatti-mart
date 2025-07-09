@@ -147,5 +147,12 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
+// ✅ Add this route at the bottom of routes/products.js
+router.get('/categories', (req, res) => {
+  res.json(['electronics', 'clothing', 'beauty', 'home', 'other']);
+});
+
+module.exports = router;
+
 module.exports = router;
 
