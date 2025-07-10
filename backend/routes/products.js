@@ -6,8 +6,17 @@ const path = require('path');
 const fs = require('fs');
 
 // ✅ Admin: Get all products
-router.get('/categories', (req, res) => {
-  res.json(['electronics', 'clothing', 'beauty', 'home', 'other']);
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await Product.distinct("category");
+    const formatted = categories.map(name => ({
+      name,
+      icon: null // or fetch icon if you have
+    }));
+    res.json(formatted);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 router.get('/admin/products', async (req, res) => {
