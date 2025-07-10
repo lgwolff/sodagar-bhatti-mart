@@ -353,10 +353,17 @@ async function loadProducts(targetId) {
 
 
 <script>
-  async function loadCategories() {
+ async function loadCategories() {
+  try {
     const res = await fetch("https://sodagar-backend.onrender.com/api/categories");
-    const categories = await res.json();
+    
+    if (!res.ok) {
+      const errText = await res.text(); // for debugging
+      console.error("❌ Failed to fetch categories:", errText);
+      return;
+    }
 
+    const categories = await res.json();
     const grid = document.getElementById("categoryGrid");
     grid.innerHTML = '';
 
@@ -370,7 +377,10 @@ async function loadProducts(targetId) {
       `;
       grid.appendChild(block);
     });
+  } catch (err) {
+    console.error("❌ loadCategories failed:", err);
   }
+}
 
   document.addEventListener("DOMContentLoaded", loadCategories);
 </script>
