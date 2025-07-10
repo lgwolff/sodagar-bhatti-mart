@@ -52,13 +52,13 @@
     let cartItems = [];
 
     if (user?.email) {
-      const res = await fetch(`/api/cart?email=${user.email}`);
+      const res = await fetch(`https://sodagar-backend.onrender.com/api/cart?email=${user.email}`);
       const data = await res.json();
       cartItems = data.items || [];
     } else {
       const guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
       for (const item of guestCart) {
-        const res = await fetch(`/api/products/${item.productId}`);
+        const res = await fetch(`https://sodagar-backend.onrender.com/api/products/${item.productId}`);
         const product = await res.json();
         cartItems.push({ productId: product, quantity: item.quantity });
       }
@@ -116,7 +116,7 @@
         const user = JSON.parse(localStorage.getItem("user"));
 
         if (user?.email) {
-          await fetch("/api/cart/update", {
+          await fetch("https://sodagar-backend.onrender.com/api/cart/update", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: user.email, productId: id, action })
@@ -145,7 +145,7 @@
         const user = JSON.parse(localStorage.getItem("user"));
 
         if (user?.email) {
-          await fetch("/api/cart/remove", {
+          await fetch("https://sodagar-backend.onrender.com/api/cart/remove", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: user.email, productId: id })

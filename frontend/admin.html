@@ -152,7 +152,7 @@
 <script>
   async function loadPaymentSummary() {
     try {
-      const res = await fetch("/api/orders/summary");
+      const res = await fetch("https://sodagar-backend.onrender.com/api/orders/summary");
       const data = await res.json();
 
       const container = document.getElementById("paymentOverview");
@@ -175,7 +175,7 @@
   async function loadIncomeReports() {
     try {
       // Monthly Income
-      const monthlyRes = await fetch('/api/admin/income/monthly');
+      const monthlyRes = await fetch('https://sodagar-backend.onrender.com/api/admin/income/monthly');
       const monthly = await monthlyRes.json();
       const monthlyList = document.getElementById("monthlyIncomeList");
       monthlyList.innerHTML = '';
@@ -187,7 +187,7 @@
       });
 
       // Yearly Income
-      const yearlyRes = await fetch('/api/admin/income/yearly');
+      const yearlyRes = await fetch('https://sodagar-backend.onrender.com/api/admin/income/yearly');
       const yearly = await yearlyRes.json();
       const yearlyList = document.getElementById("yearlyIncomeList");
       yearlyList.innerHTML = '';
@@ -220,7 +220,7 @@
     }
 
     try {
-      const res = await fetch("/api/admin/update-password", {
+      const res = await fetch("https://sodagar-backend.onrender.com/api/admin/update-password", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password: newPassword })
