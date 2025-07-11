@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sodagar Bhatti Mart</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="output.css" rel="stylesheet">
   <script>
     tailwind.config = {
       theme: {
@@ -17,11 +17,10 @@
     }
   </script>
 </head>
-<body class="bg-white text-black font-sans">
-<body class="bg-white text-black font-sans">
+<body class="bg-white text-black font-sans m-0">
 
 <!-- 🔺 Top Action Bar -->
-<div class="w-full bg-mercury-red text-white text-sm py-2 px-4 flex justify-end items-center gap-4">
+<div class="w-full bg-[#e63946] text-white text-sm py-2 px-4 flex justify-end items-center gap-4">
 
   <a id="link-sell" href="">Sell on Sodagar (coming soon)</a>
   <a href="help.html" class="hover:underline">Help & Support</a>
@@ -39,7 +38,7 @@
 
 
   <!-- 💱 Currency Selector -->
-  <select id="currencySelector" class="bg-mercury-red border-none text-white text-sm focus:outline-none cursor-pointer">
+  <select id="currencySelector" class="bg-[#e63946] border-none text-white text-sm focus:outline-none cursor-pointer">
     <option value="PKR">PKR</option>
     <option value="USD">$ USD</option>
   </select>
@@ -47,7 +46,7 @@
 </div>
 
 <!-- 🔴 Main Navigation -->
-<div class="w-full bg-mercury-red text-white">
+<div class="w-full bg-[#e63946] text-white">
   <div class="max-w-screen-xl mx-auto px-4 flex items-center h-[75px] space-x-4">
 
     <!-- 🔹 Clickable Logo -->
@@ -64,7 +63,7 @@
     class="w-full h-[45px] pl-4 pr-10 rounded border-none outline-none text-black bg-white placeholder-gray-500"
   />
   <!-- 🔍 Icon -->
-  <button id="searchBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-mercury-red hover:text-mercury-dark">
+  <button id="searchBtn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#e63946] hover:text-mercury-dark">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
             d="M21 21l-4.35-4.35M10 18a8 8 0 100-16 8 8 0 000 16z" />
@@ -126,12 +125,12 @@
   <div class="w-[1188px]">
 
     <!-- 🔹 Section Title -->
-    <h2 id="title-flashSale" class="text-2xl font-bold text-mercury-red mb-2">Flash Sale!</h2>
+    <h2 id="title-flashSale" class="text-2xl font-bold text-[#e63946] mb-2">Flash Sale!</h2>
 
     <!-- 🔹 Subheader: "On Sale" + Button -->
     <div class="flex items-center justify-between mb-4">
       <span id="text-onSale" class="text-lg font-semibold text-gray-800">On Sale</span>
-     <a id="btn-shopAll" href="flash-sale.html" class="text-sm bg-mercury-red hover:bg-mercury-dark text-white px-4 py-2 rounded transition duration-200">
+     <a id="btn-shopAll" href="flash-sale.html" class="text-sm bg-[#e63946] hover:bg-mercury-dark text-white px-4 py-2 rounded transition duration-200">
   SHOP ALL PRODUCTS
 </a>
     </div>
@@ -147,7 +146,7 @@
   <div class="w-[1188px] h-[297px]">
 
     <!-- 🔹 Title -->
-    <h2 id="title-categories" class="text-2xl font-bold text-mercury-red mb-4">Categories</h2>
+    <h2 id="title-categories" class="text-2xl font-bold text-[#e63946] mb-4">Categories</h2>
 
     <!-- 🔄 Dynamic Category Grid -->
     <div id="categoryGrid" class="grid grid-cols-8 gap-4">
@@ -163,7 +162,7 @@
   <div class="w-[1188px]">
 
     <!-- 🔹 Title -->
-   <h2 id="title-justForYou" class="text-2xl font-bold text-mercury-red mb-4">Just For You!</h2>
+   <h2 id="title-justForYou" class="text-2xl font-bold text-[#e63946] mb-4">Just For You!</h2>
 
 
     <!-- 🛒 Products Grid Container -->
@@ -175,7 +174,7 @@
     <div class="flex justify-center mt-6">
       <button 
         id="loadMoreBtn" 
-        class="bg-mercury-red hover:bg-mercury-dark text-white px-6 py-2 rounded shadow"
+        class="bg-[#e63946] hover:bg-mercury-dark text-white px-6 py-2 rounded shadow"
       >
         LOAD MORE
       </button>
@@ -191,7 +190,7 @@
   <div class="w-[1188px]">
 
     <!-- 🔹 Useful Links -->
-   <h2 id="title-usefulLinks" class="text-xl font-bold text-mercury-red mb-4">Useful Links</h2>
+   <h2 id="title-usefulLinks" class="text-xl font-bold text-[#e63946] mb-4">Useful Links</h2>
 
     <div class="grid grid-cols-4 gap-6 mb-10 text-sm text-gray-700">
       <ul class="space-y-2">
@@ -221,7 +220,7 @@
     </div>
 
     <!-- 🔸 Payment Methods -->
-    <h2 id="title-paymentMethods" class="text-xl font-bold text-mercury-red mb-4">Payment Methods</h2>
+    <h2 id="title-paymentMethods" class="text-xl font-bold text-[#e63946] mb-4">Payment Methods</h2>
     <div class="flex flex-wrap items-center gap-4">
       <!-- Use real logos if you have them -->
       <img src="cod.png" alt="Cash on Delivery" class="h-8 object-contain" />
@@ -238,7 +237,7 @@
 </div>
 
 <!-- 🔻 Footer -->
-<footer class="bg-mercury-red text-white text-sm">
+<footer class="bg-[#e63946] text-white text-sm">
   <div class="max-w-screen-xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between space-y-2 md:space-y-0">
 
     <!-- 🔹 Left: Title -->
@@ -338,7 +337,7 @@ async function loadProducts(targetId) {
       ${product.onSale ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">On Sale!</span>` : ''}
       <img src="${product.images?.[0] || 'fallback.jpg'}" alt="${product.name}" class="w-full h-[140px] object-cover rounded" />
       <div class="mt-2 text-sm font-semibold text-gray-800 truncate">${product.name}</div>
-      <div class="price text-xs text-mercury-red font-bold mt-1" data-pkr="${pkr}">${formattedPrice}</div>
+      <div class="price text-xs text-[#e63946] font-bold mt-1" data-pkr="${pkr}">${formattedPrice}</div>
     `;
     container.appendChild(card);
   });
