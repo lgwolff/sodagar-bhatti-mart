@@ -9,10 +9,7 @@ const PORT = 3000;
 const productRoutes = require('./routes/products');
 
 // ✅ Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(process.env.MONGO_URI)
 
 // ✅ Middleware
 app.use(cors());
