@@ -42,7 +42,6 @@ app.use('/api/support', require('./routes/support'));
 app.use('/api/cart', require('./routes/cart'));
 app.use('/api/payments', require('./routes/payments'));
 app.use('/api/payments', paymentRoutes);
-app.use('/api/users', require('./routes/auth'));
 
 // ✅ Serve frontend files
 app.use(express.static(path.join(__dirname, '../frontend')));
