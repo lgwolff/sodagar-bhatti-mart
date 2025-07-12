@@ -9,9 +9,10 @@ const PORT = 3000;
 const productRoutes = require('./routes/products');
 
 // ✅ Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error("MongoDB connection error:", err));
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // ✅ Middleware
 app.use(cors());
