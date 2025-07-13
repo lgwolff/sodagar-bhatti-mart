@@ -29,12 +29,12 @@ app.use('/api/payments', require('./routes/payments'));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(express.static(path.join(__dirname, '../frontend')));
 
-// ✅ Fallback for SPA frontend
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/index.html'));
-});
 
 // ✅ Start server
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
+});
+// ✅ Fallback for SPA frontend
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });
