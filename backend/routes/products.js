@@ -11,10 +11,11 @@ router.get('/categories', async (req, res) => {
     const categories = await Product.distinct("category");
     const formatted = categories.map(name => ({
       name,
-      icon: null // or fetch icon if you have
+      icon: null
     }));
     res.json(formatted);
   } catch (err) {
+    console.error("❌ Category Fetch Error:", err);  // <-- log the real error
     res.status(500).json({ message: "Server error" });
   }
 });
