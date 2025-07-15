@@ -318,7 +318,7 @@
 <script>
 async function loadProducts(targetId) {
   const currency = localStorage.getItem("currency") || "PKR";
-  const res = await fetch("https://sodagar-backend.onrender.com/api/products");
+  const res = await fetch("https://sodagarbhattimart.onrender.com/api/products");
   const all = await res.json();
 
   const container = document.getElementById(targetId);
