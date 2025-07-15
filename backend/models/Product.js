@@ -16,6 +16,11 @@ const productSchema = new mongoose.Schema({
     required: true,
     min: 0
   },
+  saleprice: {
+    type: Number,
+    required: false,
+    min: 0
+  },
   category: {
     type: String,
     required: true,
