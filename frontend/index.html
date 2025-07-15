@@ -325,6 +325,14 @@ async function loadProducts(targetId) {
   container.innerHTML = '';
 
   all.forEach(product => {
+    // Filter products based on target section
+    if (
+      (targetId === "flashSaleGrid" && !product.onSale) ||
+      (targetId === "justForYouGrid" && !product.recommended)
+    ) {
+      return; // Skip product if it doesn't belong to the section
+    }
+
     const pkr = product.price || 0;
     const price = currency === 'USD' ? pkr * (1 / 290) : pkr;
     const formattedPrice = currency === 'USD' ? `$ ${price.toFixed(2)}` : `Rs. ${Math.round(price).toLocaleString()}`;
@@ -343,12 +351,12 @@ async function loadProducts(targetId) {
   });
 }
 
-
-  document.addEventListener("DOMContentLoaded", () => {
-    loadProducts("justForYouGrid");
-    loadProducts("flashSaleGrid");
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts("justForYouGrid");
+  loadProducts("flashSaleGrid");
+});
 </script>
+
 
 
 <script>
