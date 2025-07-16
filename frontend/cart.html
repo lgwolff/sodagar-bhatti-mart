@@ -31,7 +31,6 @@
       Proceed to Checkout
     </button>
   </div>
-
 </main>
 
 <!-- 🔻 Footer -->
@@ -44,8 +43,8 @@
   const cartStatus = document.getElementById("cartStatus");
   const subtotalEl = document.getElementById("subtotal");
   const cartSummary = document.getElementById("cartSummary");
-  document.addEventListener("DOMContentLoaded", loadCart);
 
+  document.addEventListener("DOMContentLoaded", loadCart);
 
   async function loadCart() {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -71,7 +70,6 @@
     }
 
     let total = 0;
-    cartStatus.remove();
     cartContainer.innerHTML = "";
 
     cartItems.forEach(item => {
@@ -85,7 +83,7 @@
       row.className = "flex items-center gap-4 border-b pb-4";
 
       row.innerHTML = `
-        <img src="/${product.images?.[0] || 'fallback.jpg'}" class="w-16 h-16 object-cover rounded" />
+        <img src="${product.images?.[0] || 'fallback.jpg'}" class="w-16 h-16 object-cover rounded" />
         <div class="flex-1">
           <p class="font-semibold">${product.name}</p>
           <p class="text-sm text-gray-500">Rs. ${price} × ${quantity} = Rs. ${itemTotal}</p>
@@ -145,7 +143,7 @@
         const user = JSON.parse(localStorage.getItem("user"));
 
         if (user?.email) {
-          await fetch("https://sodagar-backend.onrender.com/api/cart/remove", {
+          await fetch("https://sodagarbhattimart.onrender.com/api/cart/remove", {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: user.email, productId: id })
@@ -162,17 +160,14 @@
   }
 
   document.querySelector("#cartSummary button").addEventListener("click", () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user?.email) {
-    alert("Please log in to proceed to checkout.");
-    return;
-  }
-
-  window.location.href = "payment.html";
-});
-
-
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user?.email) {
+      alert("Please log in to proceed to checkout.");
+      return;
+    }
+    window.location.href = "payment.html";
+  });
 </script>
+
 </body>
 </html>
-
