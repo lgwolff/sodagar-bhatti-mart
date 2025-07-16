@@ -36,9 +36,9 @@
     const id = urlParams.get('id');
     if (!id) return alert('❌ Product ID missing in URL');
 
-    try {
-      const res = await fetch(`https://sodagarbhattimart.onrender.com/api/products/${id}`);
-      const product = await res.json();
+async function loadProductDetails() {
+  const res = await fetch(`https://sodagarbhattimart.onrender.com/api/products/${productId}`);
+  const product = await res.json();
 
       document.getElementById("productImage").src = `/${product.images?.[0] || 'fallback.jpg'}`;
       document.getElementById("productName").textContent = product.name;
