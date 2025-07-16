@@ -347,6 +347,11 @@ async function loadProducts(targetId) {
       <div class="mt-2 text-sm font-semibold text-gray-800 truncate">${product.name}</div>
       <div class="price text-xs text-[#e63946] font-bold mt-1" data-pkr="${pkr}">${formattedPrice}</div>
     `;
+    function addToCart(productId) {
+  console.log('Add to cart:', productId);
+  alert(`Product ${productId} added to cart!`);
+  // You can later connect this to your backend or localStorage cart
+}
     container.appendChild(card);
   });
 }
