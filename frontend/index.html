@@ -325,39 +325,38 @@ async function loadProducts(targetId) {
   container.innerHTML = '';
 
   all.forEach(product => {
-    // Filter products based on target section
     if (
       (targetId === "flashSaleGrid" && !product.onSale) ||
       (targetId === "justForYouGrid" && !product.recommended)
     ) {
-      return; // Skip product if it doesn't belong to the section
+      return;
     }
 
     const pkr = product.price || 0;
     const price = currency === 'USD' ? pkr * (1 / 290) : pkr;
-    const formattedPrice = currency === 'USD'
-      ? `$ ${price.toFixed(2)}`
-      : `Rs. ${Math.round(price).toLocaleString()}`;
+    const formattedPrice = currency === 'USD' ? `$ ${price.toFixed(2)}` : `Rs. ${Math.round(price).toLocaleString()}`;
 
     const card = document.createElement('div');
     card.className = "relative bg-white border rounded shadow hover:shadow-md transition p-2 flex flex-col items-center text-center";
 
     card.innerHTML = `
       ${product.onSale ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">On Sale!</span>` : ''}
-      <img src="${product.images?.[0] || 'fallback.jpg'}" alt="${product.name}" class="w-full h-[140px] object-cover rounded" />
+      <a href="product.html?id=${product._id}">
+        <img src="${product.images?.[0] || 'fallback.jpg'}" alt="${product.name}" class="w-full h-[140px] object-cover rounded" />
+      </a>
       <div class="mt-2 text-sm font-semibold text-gray-800 truncate">${product.name}</div>
       <div class="price text-xs text-[#e63946] font-bold mt-1" data-pkr="${pkr}">${formattedPrice}</div>
-      <button onclick="addToCart('${product._id}')" class="mt-2 bg-[#e63946] text-white text-xs px-3 py-1 rounded">Add to Cart</button>
+      <button onclick="addToCart('${product._id}')" class="mt-2 bg-[#e63946] text-white text-xs px-2 py-1 rounded">Add to Cart</button>
     `;
-
     container.appendChild(card);
   });
 }
 
 function addToCart(productId) {
-  console.log('Add to cart:', productId);
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push(productId);
+  localStorage.setItem('cart', JSON.stringify(cart));
   alert(`Product ${productId} added to cart!`);
-  // TODO: Implement actual cart logic
 }
 
 document.addEventListener("DOMContentLoaded", () => {
