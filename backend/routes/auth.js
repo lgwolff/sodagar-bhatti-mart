@@ -19,6 +19,22 @@ router.post('/signup', async (req, res) => {
     res.status(500).json({ message: "Server error during signup." });
   }
 });
+// 🚪 Customer Login
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: "Invalid credentials." });
+    }
+
+    const { password: _, ...userData } = user.toObject();
+    res.json({ user: userData });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ message: "Server error during login." });
+  }
+});
 
 // 🔐 Admin Login
 router.post("/admin/login", (req, res) => {
