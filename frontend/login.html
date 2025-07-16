@@ -35,7 +35,7 @@
     const password = document.getElementById('password').value.trim();
 
     try {
-      const res = await fetch('/api/users/login', {
+      const res = await fetch('https://sodagarbhattimart.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -48,12 +48,10 @@
         return;
       }
 
-      // Save to localStorage
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Redirect
       if (data.user.role === 'admin') {
-        window.location.href = "admin.html"; // you’ll build this later
+        window.location.href = "admin.html";
       } else {
         window.location.href = "index.html";
       }
