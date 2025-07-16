@@ -328,9 +328,7 @@ async function loadProducts(targetId) {
     if (
       (targetId === "flashSaleGrid" && !product.onSale) ||
       (targetId === "justForYouGrid" && !product.recommended)
-    ) {
-      return;
-    }
+    ) return;
 
     const pkr = product.price || 0;
     const price = currency === 'USD' ? pkr * (1 / 290) : pkr;
@@ -340,11 +338,10 @@ async function loadProducts(targetId) {
     card.className = "relative bg-white border rounded shadow hover:shadow-md transition p-2 flex flex-col items-center text-center";
 
     card.innerHTML = `
-      ${product.onSale ? `<span class="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">On Sale!</span>` : ''}
       <a href="product.html?id=${product._id}">
-        <img src="${product.images?.[0] || 'fallback.jpg'}" alt="${product.name}" class="w-full h-[140px] object-cover rounded" />
+        <img src="${product.images?.[0] || 'fallback.jpg'}" alt="${product.name}" class="w-full h-[140px] object-cover rounded mb-2" />
+        <div class="text-sm font-semibold text-gray-800 truncate">${product.name}</div>
       </a>
-      <div class="mt-2 text-sm font-semibold text-gray-800 truncate">${product.name}</div>
       <div class="price text-xs text-[#e63946] font-bold mt-1" data-pkr="${pkr}">${formattedPrice}</div>
       <button onclick="addToCart('${product._id}')" class="mt-2 bg-[#e63946] text-white text-xs px-2 py-1 rounded">Add to Cart</button>
     `;
@@ -364,6 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProducts("flashSaleGrid");
 });
 </script>
+
 
 
 
