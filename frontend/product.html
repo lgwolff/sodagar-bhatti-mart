@@ -51,45 +51,48 @@
     }
   }
 
-  async function addToCart(productId) {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const quantity = 1;
+async function addToCart(productId) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const quantity = 1;
 
-    if (user?.email) {
-      try {
-        const res = await fetch(`https://sodagarbhattimart.onrender.com/api/cart/add`, {
-          method: "POST",
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: user.email, productId, quantity })
-        });
-        const data = await res.json();
-        console.log("📥 Add to cart response:", data);
+  if (user?.email) {
+    try {
+      const res = await fetch('https://sodagarbhattimart.onrender.com/api/cart/add', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email, productId, quantity })
+      });
 
-        if (!res.ok) {
-          alert("❌ Failed to add to cart: " + data.message);
-          return;
-        }
+      const data = await res.json();
+      console.log("📥 Add to cart response:", data);
 
-        alert("✅ Added to cart!");
-      } catch (err) {
-        console.error("❌ Cart error:", err);
-        alert("❌ Failed to add to cart.");
-      }
-    } else {
-      let guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
-      const existing = guestCart.find(item => item.productId === productId);
-
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        guestCart.push({ productId, quantity });
+      if (!res.ok) {
+        alert("❌ Failed to add to cart: " + data.message);
+        return;
       }
 
-      localStorage.setItem("guestCart", JSON.stringify(guestCart));
-      console.log("🛒 Guest cart updated:", guestCart);
-      alert("✅ Added to guest cart!");
+      alert("✅ Added to cart!");
+    } catch (err) {
+      console.error("❌ Cart error:", err);
+      alert("❌ Failed to add to cart.");
     }
+  } else {
+    // Guest cart
+    let guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
+    const existing = guestCart.find(item => item.productId === productId);
+
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      guestCart.push({ productId, quantity });
+    }
+
+    localStorage.setItem("guestCart", JSON.stringify(guestCart));
+    console.log("🛒 Guest cart updated:", guestCart);
+    alert("✅ Added to guest cart!");
   }
+}
+
 
   document.addEventListener("DOMContentLoaded", loadProduct);
 </script>
