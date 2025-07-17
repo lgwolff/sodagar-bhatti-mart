@@ -34,22 +34,25 @@
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get('id');
 
-  async function loadProduct() {
-    try {
-      const res = await fetch(`https://sodagarbhattimart.onrender.com/api/products/${productId}`);
-      const product = await res.json();
+ async function loadProduct() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
 
-      document.getElementById('productName').textContent = product.name;
-      document.getElementById('productDesc').textContent = product.description;
-      document.getElementById('productPrice').textContent = `Rs. ${product.price}`;
-      document.getElementById('productImage').src = product.images[0] || 'fallback.jpg';
+  try {
+    const res = await fetch(`https://sodagarbhattimart.onrender.com/api/products/${productId}`);
+    const product = await res.json();
 
-      document.getElementById("addToCartBtn").addEventListener("click", () => addToCart(product._id));
-    } catch (err) {
-      console.error("❌ Failed to load product", err);
-      alert("❌ Error loading product.");
-    }
+    document.getElementById('productName').textContent = product.name;
+    document.getElementById('productDesc').textContent = product.description;
+    document.getElementById('productPrice').textContent = `Rs. ${product.price}`;
+    document.getElementById('productImage').src = product.images[0] || 'fallback.jpg';
+
+    document.getElementById("addToCartBtn").addEventListener("click", () => addToCart(product._id));
+  } catch (err) {
+    console.error("❌ Failed to load product", err);
+    alert("❌ Error loading product.");
   }
+}
 
 async function addToCart(productId) {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -77,7 +80,6 @@ async function addToCart(productId) {
       alert("❌ Failed to add to cart.");
     }
   } else {
-    // Guest cart
     let guestCart = JSON.parse(localStorage.getItem("guestCart") || "[]");
     const existing = guestCart.find(item => item.productId === productId);
 
@@ -93,8 +95,8 @@ async function addToCart(productId) {
   }
 }
 
+document.addEventListener("DOMContentLoaded", loadProduct);
 
-  document.addEventListener("DOMContentLoaded", loadProduct);
 </script>
 
 </body>
