@@ -33,22 +33,7 @@
 <footer class="bg-red-500 text-white text-center py-2 mt-12">
   &copy; Sodagar. All rights reserved.
 </footer>
-<script>
-  function setupProceedToCheckout() {
-  const checkoutBtn = document.getElementById("proceedToCheckoutBtn");
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener("click", () => {
-      const user = JSON.parse(localStorage.getItem("user"));
-      if (!user?.email) {
-        alert("Please log in to proceed to checkout.");
-        window.location.href = "login.html";
-      } else {
-        window.location.href = "payment.html";
-      }
-    });
-  }
-}
-</script>
+
 <script src="cart.js"></script>
 
 </body>
