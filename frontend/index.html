@@ -337,7 +337,45 @@ async function loadProducts(targetId) {
     container.appendChild(card);
   });
 }
-  <script>
+
+function addToCart(productId) {
+  const user = JSON.parse(localStorage.getItem('user'));
+  const quantity = 1;
+
+  if (user?.email) {
+    fetch('/api/cart/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: user.email, productId, quantity })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log('Cart updated:', data);
+      alert('✅ Product added to cart!');
+    })
+    .catch(err => {
+      console.error('Failed to add to cart:', err);
+      alert('❌ Failed to add to cart.');
+    });
+  } else {
+    let guestCart = JSON.parse(localStorage.getItem('guestCart') || '[]');
+    const existing = guestCart.find(item => item.productId === productId);
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      guestCart.push({ productId, quantity });
+    }
+    localStorage.setItem('guestCart', JSON.stringify(guestCart));
+    alert('✅ Product added to guest cart!');
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadProducts("justForYouGrid");
+  loadProducts("flashSaleGrid");
+});
+</script>
+
 function addToCart(productId) {
   const user = JSON.parse(localStorage.getItem('user'));
   const quantity = 1;
