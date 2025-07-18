@@ -41,5 +41,57 @@ router.post('/add', async (req, res) => {
     res.status(500).json({ message: 'Failed to update cart' });
   }
 });
+function setupProceedToCheckout() {
+  const checkoutBtn = document.getElementById("proceedToCheckoutBtn");
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener("click", () => {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (!user?.email) {
+        alert("Please log in to proceed to checkout.");
+        window.location.href = "login.html";
+      } else {
+        window.location.href = "payment.html";
+      }
+    });
+  }
+}
+function renderCart(cartItems) {
+  const cartContainer = document.getElementById("cartContainer");
+  const subtotalEl = document.getElementById("subtotal");
+  const cartSummary = document.getElementById("cartSummary");
+  
+  if (!cartItems.length) {
+    cartContainer.innerHTML = "<p>🛒 Your cart is empty.</p>";
+    cartSummary.classList.add("hidden");
+    return;
+  }
+
+  let total = 0;
+  cartContainer.innerHTML = "";
+
+  cartItems.forEach(item => {
+    const product = item.productId;
+    const quantity = item.quantity;
+    const itemTotal = quantity * product.price;
+    total += itemTotal;
+
+    const row = document.createElement("div");
+    row.className = "flex items-center gap-4 border-b pb-4";
+    row.innerHTML = `
+      <img src="/${product.images?.[0] || 'fallback.jpg'}" class="w-16 h-16 object-cover rounded" />
+      <div class="flex-1">
+        <p class="font-semibold">${product.name}</p>
+        <p class="text-sm text-gray-500">Rs. ${product.price} × ${quantity} = Rs. ${itemTotal}</p>
+      </div>
+    `;
+
+    cartContainer.appendChild(row);
+  });
+
+  subtotalEl.textContent = total;
+  cartSummary.classList.remove("hidden");
+
+  setupProceedToCheckout(); // <-- add this
+}
 
 module.exports = router;
