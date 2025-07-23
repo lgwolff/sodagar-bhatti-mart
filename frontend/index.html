@@ -337,8 +337,6 @@ async function loadProducts(targetId) {
     container.appendChild(card);
   });
 }
-</script>
-  <script>
 
 function addToCart(productId) {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -377,7 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
   loadProducts("flashSaleGrid");
 });
 </script>
-
+<script>
 function addToCart(productId) {
   const user = JSON.parse(localStorage.getItem('user'));
   const quantity = 1;
